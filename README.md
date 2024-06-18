@@ -13,14 +13,11 @@ npm install @jswork/scrolled-event
 
 ## usage
 ```js
-import scrolledEvent from '@jswork/scrolled-event';
+import ScrolledEvent from '@jswork/scrolled-event';
 
-// usage goes here.
-```
-
-## types
-```ts
-/// <reference types="@jswork/scrolled-event/global.d.ts" />
+ScrolledEvent.on((event) => {
+  console.log(event);
+}, { element: window, interval: 100 });
 ```
 
 ## license
