@@ -17,7 +17,7 @@ export interface ScrolledEventOptions {
 
 export interface EventResponse {
   destroy: () => void;
-  target: HTMLElement | Window;
+  target: HTMLElement;
 }
 
 const defaultOptions: ScrolledEventOptions = {
