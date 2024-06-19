@@ -1,5 +1,3 @@
-import { Destroyable } from '@jswork/types/modules/event';
-
 const throttle = (fn: Function, wait: number = 100) => {
   let timeout = 0;
   return function() {
@@ -17,17 +15,24 @@ export interface ScrolledEventOptions {
   element?: HTMLElement | Window;
 }
 
+export interface EventResponse {
+  destroy: () => void;
+  target: HTMLElement | Window;
+}
+
 const defaultOptions: ScrolledEventOptions = {
   interval: 20,
   element: window,
 };
 
 class ScrolledEvent {
-  static on(inCallback: (event: Event) => void, inOptions?: ScrolledEventOptions): Destroyable {
+  static on(inCallback: (event: Event) => void, inOptions?: ScrolledEventOptions): EventResponse {
     const { element, interval } = { ...defaultOptions, ...inOptions };
+    const target = element instanceof Window ? document.documentElement : element!;
     const handleScroll = throttle(inCallback, interval);
     element?.addEventListener('scroll', handleScroll);
     return {
+      target,
       destroy() {
         element?.removeEventListener('scroll', handleScroll);
       },
