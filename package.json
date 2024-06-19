@@ -1,6 +1,6 @@
 {
   "name": "@jswork/scrolled-event",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Scrolled event.",
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.esm.js",
