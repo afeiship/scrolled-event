@@ -25,16 +25,23 @@ const defaultOptions: ScrolledEventOptions = {
   element: window,
 };
 
+const defaultResponse: EventResponse = {
+  destroy: () => {
+  }, target: document.documentElement,
+};
+
 class ScrolledEvent {
   static on(inCallback: (event: Event) => void, inOptions?: ScrolledEventOptions): EventResponse {
     const { element, interval } = { ...defaultOptions, ...inOptions };
-    const target = element instanceof Window ? document.documentElement : element!;
+    if (!element) return defaultResponse;
+
+    const target = element instanceof Window ? document.documentElement : element;
     const handleScroll = throttle(inCallback, interval);
-    element?.addEventListener('scroll', handleScroll);
+    element.addEventListener('scroll', handleScroll);
     return {
       target,
       destroy() {
-        element?.removeEventListener('scroll', handleScroll);
+        element.removeEventListener('scroll', handleScroll);
       },
     };
   }
