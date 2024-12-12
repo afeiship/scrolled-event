@@ -1,6 +1,6 @@
 const throttle = (fn: Function, wait: number = 100) => {
   let timeout = 0;
-  return function() {
+  return function () {
     const context = this;
     const args = arguments;
     clearTimeout(timeout);
@@ -13,6 +13,7 @@ const throttle = (fn: Function, wait: number = 100) => {
 export interface ScrolledEventOptions {
   interval?: number;
   element?: HTMLElement | Window;
+  eventName?: 'scroll' | 'scrollend';
 }
 
 export interface EventResponse {
@@ -25,9 +26,10 @@ const MESSAGES = {
   NO_SCROLL_EVENT_CALL: 'ScrolledEvent.on() has not been called yet.',
 };
 
-const defaultOptions: ScrolledEventOptions = {
+const defaultOptions: Required<ScrolledEventOptions> = {
   interval: 20,
   element: window,
+  eventName: 'scroll',
 };
 
 const defaultResponse: EventResponse = {
@@ -39,16 +41,18 @@ const defaultResponse: EventResponse = {
 
 class ScrolledEvent {
   static on(inCallback: (event: Event) => void, inOptions?: ScrolledEventOptions): EventResponse {
-    const { element, interval } = { ...defaultOptions, ...inOptions };
+    const { element, interval, eventName } = { ...defaultOptions, ...inOptions };
     if (!element) return console.warn(MESSAGES.NO_ELEMENT_SPECIFIED), defaultResponse;
 
     const target = element instanceof Window ? document.documentElement : element;
     const handleScroll = throttle(inCallback, interval);
-    element.addEventListener('scroll', handleScroll);
+
+    element.addEventListener(eventName, handleScroll);
+
     return {
       target,
       destroy() {
-        element.removeEventListener('scroll', handleScroll);
+        element.removeEventListener(eventName, handleScroll);
       },
     };
   }
