@@ -1,6 +1,6 @@
 {
   "name": "@jswork/scrolled-event",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Scrolled event.",
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.esm.js",
@@ -38,6 +38,7 @@
   "dependencies": {},
   "keywords": [
     "event",
-    "scroll"
+    "scroll",
+    "throttle"
   ]
 }
